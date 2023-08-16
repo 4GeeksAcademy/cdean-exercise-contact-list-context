@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
-
+import { Context } from "../store/appContext.js";
 import { ContactCard } from "../component/ContactCard.js";
 import { Modal } from "../component/Modal";
 
@@ -9,6 +9,11 @@ export const Contacts = () => {
 		showModal: false
 	});
 
+	const { store, actions } = useContext(Context); // para traer el store y actions de flux
+
+	useEffect(() => {
+		actions.obtenerInfo();
+	}, []);
 	return (
 		<div className="container">
 			<div>
