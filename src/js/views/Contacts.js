@@ -6,10 +6,12 @@ import { Modal } from "../component/Modal";
 
 export const Contacts = () => {
 	const [state, setState] = useState({
-		showModal: false
+		showModal: false,
+		id: undefined
 	});
 
 	const { store, actions } = useContext(Context); // para traer el store y actions de flux
+	console.log(store);
 
 	useEffect(() => {
 		actions.obtenerInfo();
@@ -24,14 +26,20 @@ export const Contacts = () => {
 				</p>
 				<div id="contacts" className="panel-collapse collapse show" aria-expanded="true">
 					<ul className="list-group pull-down" id="contact-list">
-						<ContactCard onDelete={() => setState({ showModal: true })} />
-						<ContactCard />
-						<ContactCard />
-						<ContactCard />
+						{store.contacts.map((item, index) => (
+							<ContactCard
+								full_name={item.full_name}
+								email={item.email}
+								phone={item.phone}
+								address={item.address}
+								key={item.id}
+								onDelete={() => setState({ showModal: true, id: item.id })}
+							/>
+						))}
 					</ul>
 				</div>
 			</div>
-			<Modal show={state.showModal} onClose={() => setState({ showModal: false })} />
+			<Modal id={state.id} show={state.showModal} onClose={() => setState({ showModal: false })} />
 		</div>
 	);
 };
